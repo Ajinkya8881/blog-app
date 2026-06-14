@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6">
+<head>
+    <title>Posts</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+<div class="header">
+    <a href="/posts">Posts</a>
+    <a href="/posts/new" sec:authorize="isAuthenticated()">Create Post</a>
+    <a href="/tags" sec:authorize="isAuthenticated()">Tags</a>
+    <a href="/logout" sec:authorize="isAuthenticated()">Logout</a>
+    <a href="/login" sec:authorize="!isAuthenticated()">Login</a>
+    <a href="/register" sec:authorize="!isAuthenticated()">Register</a>
+</div>
+
+<hr>
+
+<h1>My Blog Application</h1>
+
+<form action="/posts" method="get">
+    <input type="text" name="search" placeholder="Search Posts" th:value="${search}">
+    <button type="submit">Search</button>
+</form>
+
+<br>
+
+<a href="/posts?sort=desc">Newest First</a>
+<a href="/posts?sort=asc">Oldest First</a>
+
+<br><br>
+
+<div th:each="post : ${posts != null ? posts : postsPage.content}" class="post">
+
+    <h2 th:text="${post.title}"></h2>
+
+    <p>
+        <a th:href="@{/posts(author=${post.author})}" th:text="${post.author}"></a>
+        -
+        <span th:text="${#temporals.format(post.publishedAt, 'dd-MM-yyyy')}"></span>
+    </p>
+
+    <p th:text="${post.excerpt}"></p>
+
+    <div>
+        <span th:each="tag : ${post.tags}">
+            <a th:href="@{/posts(tagId=${tag.id})}" th:text="${tag.name}"></a>&nbsp;
+        </span>
+    </div>
+
+    <br>
+
+    <a th:href="@{/posts/{id}(id=${post.id})}">View</a>&nbsp;
+
+    <a sec:authorize="isAuthenticated()"
+       th:if="${#authentication.name == post.author or #authorization.expression('hasRole(''ADMIN'')')}"
+       th:href="@{/posts/{id}/edit(id=${post.id})}">Edit</a>&nbsp;
+
+    <form sec:authorize="isAuthenticated()"
+          th:if="${#authentication.name == post.author or #authorization.expression('hasRole(''ADMIN'')')}"
+          th:action="@{/posts/{id}/delete(id=${post.id})}"
+          method="post"
+          style="display:inline">
+        <button type="submit">Delete</button>
+    </form>
+
+</div>
+
+<div class="pagination" th:if="${posts == null}">
+    <a th:if="${postsPage.hasPrevious()}" th:href="@{/posts(page=${postsPage.number - 1})}">Previous</a>
+    <a th:if="${postsPage.hasNext()}" th:href="@{/posts(page=${postsPage.number + 1})}">Next</a>
+</div>
+
+</body>
+</html>

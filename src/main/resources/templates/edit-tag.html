@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6">
+<head>
+    <title>Edit Tag</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+<div class="header">
+    <a href="/posts">Posts</a>
+    <a href="/posts/new" sec:authorize="isAuthenticated()">Create Post</a>
+    <a href="/tags" sec:authorize="isAuthenticated()">Tags</a>
+    <a href="/logout" sec:authorize="isAuthenticated()">Logout</a>
+    <a href="/login" sec:authorize="!isAuthenticated()">Login</a>
+</div>
+
+<hr>
+
+<h1>Edit Tag</h1>
+
+<form th:action="@{/tags/{id}/edit(id=${tag.id})}" method="post">
+    <label>Tag Name</label>
+    <input type="text" name="name" th:value="${tag.name}">
+    <button type="submit">Update</button>
+</form>
+
+</body>
+</html>

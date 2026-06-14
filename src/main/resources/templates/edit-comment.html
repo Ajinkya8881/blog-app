@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Comment</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+<div class="header">
+    <a href="/posts">Posts</a>
+    <a href="/posts/new">Create Post</a>
+    <a href="/tags">Tags</a>
+</div>
+
+<hr>
+
+<h1>Edit Comment</h1>
+
+<form
+        th:action="@{/comments/{id}/edit(id=${comment.id})}"
+        method="post">
+
+    <label>Comment</label>
+
+    <textarea
+            name="comment"
+            rows="8"
+            th:text="${comment.comment}">
+    </textarea>
+
+    <button type="submit">
+        Update Comment
+    </button>
+
+</form>
+
+</body>
+</html>

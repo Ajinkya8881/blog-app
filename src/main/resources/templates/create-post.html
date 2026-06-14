@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6">
+<head>
+    <title>Create Post</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+<div class="header">
+    <a href="/posts">Posts</a>
+    <a href="/posts/new">Create Post</a>
+    <a href="/tags">Tags</a>
+</div>
+
+<hr>
+
+<h1>Create Post</h1>
+
+<form action="/posts" method="post">
+
+    <label>Title</label>
+    <input type="text" name="title">
+
+    <label>Excerpt</label>
+    <input type="text" name="excerpt">
+
+    <label>Author</label>
+    <input type="text"
+           sec:authentication="name"
+           th:value="${#authentication.name}"
+           disabled>
+
+    <label>Content</label>
+    <textarea name="content" rows="10"></textarea>
+
+    <h3>Tags</h3>
+    <div th:each="tag : ${tags}">
+        <input type="checkbox" name="tagIds" th:value="${tag.id}">
+        <span th:text="${tag.name}"></span><br>
+    </div>
+
+    <br>
+    <button type="submit">Create Post</button>
+
+</form>
+
+</body>
+</html>

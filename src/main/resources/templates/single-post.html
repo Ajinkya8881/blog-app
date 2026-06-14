@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/springsecurity6">
+<head>
+    <title th:text="${post.title}">Post</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+<div class="header">
+    <a href="/posts">Posts</a>
+    <a href="/posts/new" sec:authorize="isAuthenticated()">Create Post</a>
+    <a href="/tags" sec:authorize="isAuthenticated()">Tags</a>
+    <a href="/logout" sec:authorize="isAuthenticated()">Logout</a>
+    <a href="/login" sec:authorize="!isAuthenticated()">Login</a>
+    <a href="/register" sec:authorize="!isAuthenticated()">Register</a>
+</div>
+
+<hr>
+
+<a href="/posts">Back To Posts</a>
+
+<h1 th:text="${post.title}"></h1>
+
+<p>Author: <span th:text="${post.author}"></span></p>
+<p>Published: <span th:text="${#temporals.format(post.publishedAt, 'dd-MM-yyyy')}"></span></p>
+
+<h3>Excerpt</h3>
+<p th:text="${post.excerpt}"></p>
+
+<h3>Content</h3>
+<p th:text="${post.content}"></p>
+
+<h3>Tags</h3>
+<div>
+    <span th:each="tag : ${post.tags}">
+        <span th:text="${tag.name}"></span>&nbsp;
+    </span>
+</div>
+
+<div sec:authorize="isAuthenticated()"
+     th:if="${#authentication.name == post.author or #authorization.expression('hasRole(''ADMIN'')')}">
+    <br>
+    <a th:href="@{/posts/{id}/edit(id=${post.id})}">Edit Post</a>&nbsp;
+    <form th:action="@{/posts/{id}/delete(id=${post.id})}" method="post" style="display:inline">
+        <button type="submit">Delete Post</button>
+    </form>
+</div>
+
+<hr>
+
+<h2>Comments</h2>
+
+<p th:if="${#lists.isEmpty(post.comments)}">No Comments Yet</p>
+
+<div th:each="comment : ${post.comments}" class="post">
+
+    <h4 th:text="${comment.name}"></h4>
+    <p th:text="${comment.comment}"></p>
+
+    <span sec:authorize="isAuthenticated()"
+          th:if="${#authentication.name == post.author or #authorization.expression('hasRole(''ADMIN'')')}">
+        <a th:href="@{/comments/{id}/edit(id=${comment.id})}">Edit</a>&nbsp;
+        <form th:action="@{/comments/{id}/delete(id=${comment.id})}" method="post" style="display:inline">
+            <button type="submit">Delete</button>
+        </form>
+    </span>
+
+</div>
+
+<hr>
+
+<h2>Add Comment</h2>
+
+<form th:action="@{/comments/create/{id}(id=${post.id})}" method="post">
+    <label>Name</label>
+    <input type="text" name="name">
+
+    <label>Email</label>
+    <input type="email" name="email">
+
+    <label>Comment</label>
+    <textarea name="comment" rows="5"></textarea>
+
+    <button type="submit">Submit Comment</button>
+</form>
+
+</body>
+</html>

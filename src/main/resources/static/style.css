@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    width: 90%;
+    margin: auto;
+}
+
+a {
+    margin-right: 10px;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 8px 15px;
+}
+
+.post {
+    border: 1px solid black;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.post span a {
+    margin-right: 8px;
+}
+
+form.inline-form {
+    display: inline;
+}
