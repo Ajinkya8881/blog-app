@@ -46,8 +46,11 @@ public class PostService {
 
         Post post = new Post();
 
-        List<Tag> tags =
-                tagRepository.findAllById(tagIds);
+        List<Tag> tags = List.of();
+
+        if(tagIds != null){
+            tags = tagRepository.findAllById(tagIds);
+        }
 
         post.setTitle(title);
         post.setExcerpt(excerpt);
@@ -68,7 +71,6 @@ public class PostService {
 
         post.getTags().addAll(tags);
         post.setIsPublished(true);
-
 
         postRepository.save(post);
     }
@@ -101,8 +103,11 @@ public class PostService {
                 postRepository.findById(id)
                         .orElseThrow();
 
-        List<Tag> tags =
-                tagRepository.findAllById(tagIds);
+        List<Tag> tags = List.of();
+
+        if(tagIds != null){
+            tags = tagRepository.findAllById(tagIds);
+        }
 
         post.setTitle(title);
         post.setExcerpt(excerpt);

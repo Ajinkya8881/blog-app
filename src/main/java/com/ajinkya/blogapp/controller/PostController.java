@@ -63,7 +63,7 @@ public class PostController {
             @RequestParam String title,
             @RequestParam String excerpt,
             @RequestParam String content,
-            @RequestParam List<Long> tagIds,
+            @RequestParam(required = false) List<Long> tagIds,
             Authentication auth
     ) {
         postService.createPost(title, excerpt, auth.getName(), content, tagIds);
@@ -99,7 +99,7 @@ public class PostController {
             @RequestParam String excerpt,
             @RequestParam(required = false) String author,
             @RequestParam String content,
-            @RequestParam List<Long> tagIds,
+            @RequestParam(required = false) List<Long> tagIds,
             Authentication auth
     ) {
         var post = postService.getPostById(id);
