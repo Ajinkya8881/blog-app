@@ -14,11 +14,13 @@ public class TagApiController {
     private final TagService tagService;
 
     public TagApiController(TagService tagService) {
+
         this.tagService = tagService;
     }
 
     @GetMapping
     public ResponseEntity<?> getAllTags() {
+
         return ResponseEntity.ok(tagService.getAllTags());
     }
 

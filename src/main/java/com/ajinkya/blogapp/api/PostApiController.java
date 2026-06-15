@@ -16,6 +16,7 @@ public class PostApiController {
     private final PostService postService;
 
     public PostApiController(PostService postService) {
+
         this.postService = postService;
     }
 

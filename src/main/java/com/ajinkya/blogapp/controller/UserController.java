@@ -20,6 +20,7 @@ public class UserController {
 
     @GetMapping("/register")
     public String showRegisterForm() {
+
         return "register";
     }
 
@@ -34,8 +35,9 @@ public class UserController {
         return "redirect:/login";
     }
 
-    @GetMapping("/login")
+    @GetMapping("/")
     public String showLoginForm() {
+
         return "login";
     }
 

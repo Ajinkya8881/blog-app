@@ -1,6 +1,5 @@
 package com.ajinkya.blogapp.api;
 
-import com.ajinkya.blogapp.entity.Comment;
 import com.ajinkya.blogapp.entity.Post;
 import com.ajinkya.blogapp.service.CommentService;
 import com.ajinkya.blogapp.service.PostService;

@@ -14,6 +14,7 @@ public class TagController {
     private final TagService tagService;
 
     public TagController(TagService tagService) {
+
         this.tagService = tagService;
     }
 
@@ -24,8 +25,10 @@ public class TagController {
     }
     @GetMapping("/new")
     public String showCreateTagForm(){
+
         return "create-tag";
     }
+
     @PostMapping
     public String createTag(@RequestParam String name){
         tagService.createTag(name);
